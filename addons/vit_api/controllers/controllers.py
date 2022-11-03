@@ -1,21 +1,30 @@
 # -*- coding: utf-8 -*-
-# from odoo import http
+from odoo import http
+import json
+from werkzeug import Response
 
+class vitApi(http.Controller):
 
-# class /mnt/extra-addons/vitApi(http.Controller):
-#     @http.route('//mnt/extra-addons/vit_api//mnt/extra-addons/vit_api/', auth='public')
-#     def index(self, **kw):
-#         return "Hello, world"
+    @http.route('/vit_api/list/<string:model_name>', auth='public')
+    def list(self, model_name, **kw):
+        domain = kw.get('domain',[])
+        fields = kw.get('fields','[]')
+        fields=eval(fields)
+        results = http.request.env[model_name].sudo().search_read(domain,fields=fields)
+        headers = {'Content-Type': 'application/json'}
+        return Response(json.dumps(results,indent=4, sort_keys=True, default=str), headers=headers)
 
-#     @http.route('//mnt/extra-addons/vit_api//mnt/extra-addons/vit_api/objects/', auth='public')
-#     def list(self, **kw):
-#         return http.request.render('/mnt/extra-addons/vit_api.listing', {
-#             'root': '//mnt/extra-addons/vit_api//mnt/extra-addons/vit_api',
-#             'objects': http.request.env['/mnt/extra-addons/vit_api./mnt/extra-addons/vit_api'].search([]),
-#         })
+    @http.route('/vit_api/read/<string:model_name>/<int:id>', auth='public')
+    def read(self, model_name, id, **kw):
+        results = http.request.env[model_name].sudo().search_read([('id','=',id)])
+        headers = {'Content-Type': 'application/json'}
+        return Response(json.dumps(results, indent=4, sort_keys=True, default=str), headers=headers)
 
-#     @http.route('//mnt/extra-addons/vit_api//mnt/extra-addons/vit_api/objects/<model("/mnt/extra-addons/vit_api./mnt/extra-addons/vit_api"):obj>/', auth='public')
-#     def object(self, obj, **kw):
-#         return http.request.render('/mnt/extra-addons/vit_api.object', {
-#             'object': obj
-#         })
+    @http.route('/vit_api/create/<string:model_name>', auth='public', csrf=False)
+    def create(self, model_name, **kw):
+        data = kw.get('data', '{}')
+        data = eval(data)
+        results = http.request.env[model_name].sudo().create(data)
+        headers = {'Content-Type': 'application/json'}
+        return Response(json.dumps(results, indent=4, sort_keys=True, default=str), headers=headers)
+
