@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_/mnt/extra-addons/vit_api_/mnt/extra-addons/vit_api,/mnt/extra-addons/vit_api./mnt/extra-addons/vit_api,model_/mnt/extra-addons/vit_api_/mnt/extra-addons/vit_api,base.group_user,1,1,1,1
