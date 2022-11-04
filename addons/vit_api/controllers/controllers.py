@@ -20,7 +20,7 @@ class vitApi(http.Controller):
         headers = {'Content-Type': 'application/json'}
         return Response(json.dumps(results, indent=4, sort_keys=True, default=str), headers=headers)
 
-    @http.route('/vit_api/create/<string:model_name>', auth='public', csrf=False)
+    @http.route('/vit_api/create/<string:model_name>', methods=['post'], auth='public', csrf=False)
     def create(self, model_name, **kw):
         data = kw.get('data', '{}')
         data = eval(data)

@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class ProductService(Component):
     _inherit = "base.rest.service"
     _name = "product.service"
-    _usage = "product"
+    _usage = "product" # /vit_rest/private/product
     _collection = "vit.rest.api.private.services"
     _description = """
         Product Services

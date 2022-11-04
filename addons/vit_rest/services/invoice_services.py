@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class InvoiceService(Component):
     _inherit = "base.rest.service"
     _name = "invoice.service"
-    _usage = "invoice"
+    _usage = "invoice" #/vit_rest/private/invoice
     _collection = "vit.rest.api.private.services"
     _description = """
         Invoice Services
@@ -59,6 +59,19 @@ class InvoiceService(Component):
         invoice = self._get(_id)
         invoice.action_post()
         return self._to_json(invoice)
+
+
+    def complex_action(self, _id):
+        invoice = self._get(_id)
+        invoice.execute_complex_action()
+        
+        # create partne
+        # create product
+        # post journal
+        # sedn email
+        # send twitter
+        pass
+
 
     def archive(self, _id, **params):
         """

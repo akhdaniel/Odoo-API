@@ -88,11 +88,16 @@ class PartnerService(Component):
 
     def _validator_return_search(self):
         return {
-            "count": {"type": "integer", "required": True},
+            "count": {
+                "type": "integer", 
+                "required": True},
             "rows": {
                 "type": "list",
                 "required": True,
-                "schema": {"type": "dict", "schema": self._validator_return_get()},
+                "schema": {
+                    "type": "dict", 
+                    "schema": self._validator_return_get()
+                },
             },
         }
 
@@ -159,5 +164,19 @@ class PartnerService(Component):
                 "name": partner.country_id.name,
             }
         if partner.state_id:
-            res["state"] = {"id": partner.state_id.id, "name": partner.state_id.name}
+            res["state"] = {
+                "id": partner.state_id.id, 
+                "name": partner.state_id.name
+            }
         return res
+
+
+
+    def receive_payment(self):
+        # tangkep data dari bank JSON: ref kode bayar
+        # udpate status payment: yang = kode kode , status : paid
+        # confirm sale: cari SO sesuai kode bayar:
+        # so.action_confirm() , open
+        # post invoice: open
+        # create payment: account.payment, payment 'link' dgn invoice -> invoice paid
+        pass 

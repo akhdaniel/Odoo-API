@@ -11,7 +11,8 @@ $common = ripcord::client("$url/xmlrpc/2/common");
 $uid = $common->authenticate($db, $username, $password, array());
 
 $models = ripcord::client("$url/xmlrpc/2/object");
-$partner_ids = $models->execute_kw($db, $uid, $password, 'res.partner', 'search', array(array(array('is_company', '=', true))));
+$partner_ids = $models->execute_kw($db, $uid, $password, 'res.partner', 'search_read', 
+array(array(array('is_company', '=', true))));
 
 var_dump($partner_ids);
 ?>

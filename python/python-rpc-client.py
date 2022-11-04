@@ -6,17 +6,20 @@ username = 'admin'
 password = '1'
 
 import xmlrpc.client
+
 common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
 uid = common.authenticate(db, username, password, {})
 
 models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
 partner_ids = models.execute_kw(db, uid, password, 
-    'res.partner', 'search', 
+    'res.partner', 'search_read', 
     [
         [['is_company', '=', True]]
     ], 
-    {'offset': 0, 'limit': 5})
+    {'offset': 0, 'limit': 5, 'fields':['id','name','email']})
+
 print(partner_ids)
 
-count = models.execute_kw(db, uid, password, 'res.partner', 'search_count', [[['is_company', '=', True]]])
+count = models.execute_kw(db, uid, password, 
+'res.partner', 'search_count', [[['is_company', '=', True]]])
 print(count)
